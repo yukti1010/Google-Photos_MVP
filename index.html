@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Strict 375px x 812px chassis */
+    /* Strict 375px x 812px mobile chassis */
     .device-shell {
       width: 375px;
       height: 812px;
@@ -16,7 +16,7 @@
       flex-shrink: 0;
       position: relative;
       overflow: hidden;
-      background: #000;
+      background: #ffffff;
     }
 
     @media (max-width: 400px) {
@@ -48,13 +48,8 @@
     </nav>
   </header>
 
-  <!-- Phone Shell (375px x 812px) -->
+  <!-- Phone Shell (375px x 812px) - Notch removed -->
   <main class="device-shell">
-    <!-- Top Notch / Island Indicator -->
-    <div class="h-5 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
-      <div class="w-24 h-3.5 bg-black rounded-full"></div>
-    </div>
-
     <!-- Active Screen Frame -->
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
 
