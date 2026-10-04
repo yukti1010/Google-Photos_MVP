@@ -7,19 +7,19 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Fixed 375px x 812px mobile chassis */
+    /* Responsive viewport-fitted phone chassis */
     .device-shell {
-      width: 375px;
-      height: 812px;
-      border-radius: 40px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 10px #1f2937;
+      width: min(375px, 92vw);
+      height: min(780px, calc(100vh - 130px));
+      border-radius: 38px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 8px #1f2937;
       flex-shrink: 0;
       position: relative;
       overflow: hidden;
       background: #000;
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 440px) {
       .device-shell {
         width: 100vw;
         height: 100dvh;
@@ -29,10 +29,10 @@
     }
   </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen py-6 px-2 font-sans select-none overflow-y-auto">
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-between min-h-screen py-3 px-2 font-sans select-none overflow-hidden">
 
-  <!-- Top Controller Strip (375px) -->
-  <header class="w-full max-w-[375px] flex items-center justify-between pb-3 px-1 mb-2">
+  <!-- Top Controller Strip -->
+  <header class="w-full max-w-[375px] flex items-center justify-between pb-1.5 px-1">
     <div>
       <h1 class="text-xs font-bold tracking-wider uppercase text-blue-400">MemoryLens AI</h1>
       <p id="screen-label" class="text-[11px] text-neutral-400">Step 1 · Memory Search</p>
@@ -40,52 +40,52 @@
 
     <!-- Step Indicator Pills -->
     <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Step Navigation">
-      <button onclick="setScreen(1, 'tab-photos')" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
-      <button onclick="setScreen(2, 'tab-search')" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
-      <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
-      <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
-      <button onclick="setScreen(5, 'tab-photos')" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
+      <button onclick="setScreen(1, 'tab-photos')" id="pill-1" class="w-6 h-6 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
+      <button onclick="setScreen(2, 'tab-search')" id="pill-2" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
+      <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
+      <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
+      <button onclick="setScreen(5, 'tab-photos')" id="pill-5" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
     </nav>
   </header>
 
-  <!-- Phone Shell (375px x 812px) -->
+  <!-- Scaled Phone Shell -->
   <main class="device-shell">
-    <!-- Top Notch / Island Indicator -->
-    <div class="h-5 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
-      <div class="w-24 h-3.5 bg-black rounded-full"></div>
+    <!-- Notch / Island Indicator -->
+    <div class="h-4 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
+      <div class="w-20 h-3 bg-black rounded-full"></div>
     </div>
 
     <!-- Active Screen Frame -->
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
 
     <!-- NATIVE CLICKABLE TASKBAR OVERLAY -->
-    <div style="z-index: 99999;" class="absolute bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-neutral-200 flex items-center justify-around px-2 text-neutral-500 shadow-lg">
+    <div style="z-index: 99999;" class="absolute bottom-0 left-0 right-0 h-14 bg-white/95 backdrop-blur-md border-t border-neutral-200 flex items-center justify-around px-2 text-neutral-500 shadow-lg">
       <button onclick="setScreen(1, 'tab-photos')" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-95 cursor-pointer">
-        <span class="material-symbols-outlined text-[22px]">photo_library</span>
-        <span class="text-[10px] font-semibold mt-0.5">Photos</span>
+        <span class="material-symbols-outlined text-[20px]">photo_library</span>
+        <span class="text-[9px] font-semibold mt-0.5">Photos</span>
       </button>
       <button onclick="setScreen(3, 'tab-memories')" id="tab-memories" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
-        <span class="material-symbols-outlined text-[22px]">filter_vintage</span>
-        <span class="text-[10px] font-semibold mt-0.5">Memories</span>
+        <span class="material-symbols-outlined text-[20px]">filter_vintage</span>
+        <span class="text-[9px] font-semibold mt-0.5">Memories</span>
       </button>
       <button onclick="setScreen(4, 'tab-library')" id="tab-library" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
-        <span class="material-symbols-outlined text-[22px]">folder_shared</span>
-        <span class="text-[10px] font-semibold mt-0.5">Library</span>
+        <span class="material-symbols-outlined text-[20px]">folder_shared</span>
+        <span class="text-[9px] font-semibold mt-0.5">Library</span>
       </button>
       <button onclick="setScreen(1, 'tab-search')" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
-        <span class="material-symbols-outlined text-[22px]">search</span>
-        <span class="text-[10px] font-semibold mt-0.5">Search</span>
+        <span class="material-symbols-outlined text-[20px]">search</span>
+        <span class="text-[9px] font-semibold mt-0.5">Search</span>
       </button>
     </div>
   </main>
 
-  <!-- Bottom Fast-Nav Toolbar -->
-  <footer class="w-full max-w-[375px] flex items-center justify-between pt-3 px-1 mt-2 text-xs">
-    <button onclick="prevScreen()" class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition cursor-pointer">
+  <!-- Bottom Toolbar -->
+  <footer class="w-full max-w-[375px] flex items-center justify-between pt-1.5 px-1 text-xs">
+    <button onclick="prevScreen()" class="px-3 py-1 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition cursor-pointer">
       ← Back
     </button>
     <span class="text-neutral-500 text-[11px]">Use bottom tabs or screen buttons</span>
-    <button onclick="nextScreen()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-500 active:scale-95 transition cursor-pointer">
+    <button onclick="nextScreen()" class="px-3 py-1 rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-500 active:scale-95 transition cursor-pointer">
       Next →
     </button>
   </footer>
@@ -113,8 +113,8 @@
         const pill = document.getElementById(`pill-${i}`);
         if (pill) {
           pill.className = (i === num)
-            ? "w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer"
-            : "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer";
+            ? "w-6 h-6 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer"
+            : "w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer";
         }
       }
 
@@ -127,7 +127,7 @@
         }
       });
 
-      // Highlight Selected Active Tab
+      // Highlight Active Tab
       const targetTab = tabId || screens[num].defaultTab;
       const activeEl = document.getElementById(targetTab);
       if (activeEl) {
@@ -149,7 +149,7 @@
         style.textContent = `
           ::-webkit-scrollbar { display: none !important; }
           * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
-          body { padding-bottom: 74px !important; }
+          body { padding-bottom: 60px !important; }
           footer, nav[class*="bottom"], [class*="fixed bottom"] { display: none !important; }
         `;
         doc.head.appendChild(style);
