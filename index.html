@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Fixed 375px x 812px chassis */
+    /* Fixed 375px x 812px mobile frame */
     .device-shell {
       width: 375px;
       height: 812px;
@@ -40,11 +40,11 @@
 
     <!-- Step Indicator Pills -->
     <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Step Navigation">
-      <button onclick="setScreen(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
-      <button onclick="setScreen(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
-      <button onclick="setScreen(3)" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
-      <button onclick="setScreen(4)" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
-      <button onclick="setScreen(5)" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
+      <button onclick="setScreen(1, 'tab-search')" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
+      <button onclick="setScreen(2, 'tab-search')" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
+      <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
+      <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
+      <button onclick="setScreen(5, 'tab-photos')" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
     </nav>
   </header>
 
@@ -55,24 +55,24 @@
       <div class="w-24 h-3.5 bg-black rounded-full"></div>
     </div>
 
-    <!-- Active Screen Frame (Leaves room for bottom taskbar) -->
+    <!-- Active Screen Frame -->
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
 
     <!-- NATIVE CLICKABLE TASKBAR OVERLAY (Z-Index 99999 ensures it intercepts all bottom clicks) -->
     <div style="z-index: 99999;" class="absolute bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-neutral-200 flex items-center justify-around px-2 text-neutral-500 shadow-lg">
-      <button onclick="setScreen(1)" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(1, 'tab-photos')" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">photo_library</span>
         <span class="text-[10px] font-semibold mt-0.5">Photos</span>
       </button>
-      <button onclick="setScreen(3)" id="tab-memories" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(3, 'tab-memories')" id="tab-memories" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">filter_vintage</span>
         <span class="text-[10px] font-semibold mt-0.5">Memories</span>
       </button>
-      <button onclick="setScreen(4)" id="tab-library" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(4, 'tab-library')" id="tab-library" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">folder_shared</span>
         <span class="text-[10px] font-semibold mt-0.5">Library</span>
       </button>
-      <button onclick="setScreen(1)" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(1, 'tab-search')" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">search</span>
         <span class="text-[10px] font-semibold mt-0.5">Search</span>
       </button>
@@ -93,16 +93,17 @@
   <script>
     let currentStep = 1;
     const screens = {
-      1: { file: 'Screen1.html', label: 'Step 1 · Memory Search' },
-      2: { file: 'Screen2.html', label: 'Step 2 · Parsing Story' },
-      3: { file: 'Screen3.html', label: 'Step 3 · Sensory Clarification' },
-      4: { file: 'Screen4.html', label: 'Step 4 · Ranked Candidates' },
-      5: { file: 'Screen5.html', label: 'Step 5 · Verified Memory' }
+      1: { file: 'Screen1.html', label: 'Step 1 · Memory Search', defaultTab: 'tab-search' },
+      2: { file: 'Screen2.html', label: 'Step 2 · Parsing Story', defaultTab: 'tab-search' },
+      3: { file: 'Screen3.html', label: 'Step 3 · Sensory Clarification', defaultTab: 'tab-memories' },
+      4: { file: 'Screen4.html', label: 'Step 4 · Ranked Candidates', defaultTab: 'tab-library' },
+      5: { file: 'Screen5.html', label: 'Step 5 · Verified Memory', defaultTab: 'tab-photos' }
     };
 
-    function setScreen(num) {
+    function setScreen(num, tabId = null) {
       if (num < 1 || num > 5) return;
       currentStep = num;
+
       const iframe = document.getElementById('stitch-frame');
       iframe.src = screens[num].file;
       document.getElementById('screen-label').textContent = screens[num].label;
@@ -117,15 +118,18 @@
         }
       }
 
-      // Update Bottom Taskbar Active Colors
-      const tabIds = ['tab-photos', 'tab-memories', 'tab-library', 'tab-search'];
-      tabIds.forEach(id => {
+      // Reset All Bottom Taskbar Tabs
+      const allTabs = ['tab-photos', 'tab-memories', 'tab-library', 'tab-search'];
+      allTabs.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.className = "flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer";
+        if (el) {
+          el.className = "flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer";
+        }
       });
 
-      const activeMap = { 1: 'tab-photos', 2: 'tab-photos', 3: 'tab-memories', 4: 'tab-library', 5: 'tab-photos' };
-      const activeEl = document.getElementById(activeMap[num]);
+      // Highlight Selected Active Tab (Search, Photos, Memories, or Library)
+      const targetTab = tabId || screens[num].defaultTab;
+      const activeEl = document.getElementById(targetTab);
       if (activeEl) {
         activeEl.className = "flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-95 cursor-pointer";
       }
@@ -140,7 +144,7 @@
       try {
         const doc = frame.contentDocument || frame.contentWindow.document;
 
-        // Add padding at the bottom of the iframe content so it doesn't get covered by our taskbar
+        // Clean up scrollbars and hide Stitch's duplicate bottom bar
         const style = doc.createElement('style');
         style.textContent = `
           ::-webkit-scrollbar { display: none !important; }
@@ -158,35 +162,35 @@
 
           // Screen 1: "Find this memory"
           if (txt.includes('find this memory')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(2);
+            e.preventDefault(); e.stopPropagation(); setScreen(2, 'tab-search');
           }
           // Screen 2: "Help me find it" or clarify
           else if (txt.includes('help me find it') || txt.includes('need one more clue') || txt.includes('clarify')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(3);
+            e.preventDefault(); e.stopPropagation(); setScreen(3, 'tab-memories');
           }
           // Screen 2: "Show all 142 unclarified matches"
           else if (txt.includes('show all 142') || txt.includes('unclarified')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4);
+            e.preventDefault(); e.stopPropagation(); setScreen(4, 'tab-library');
           }
           // Screen 3: "View 6 Ranked Memories"
           else if (txt.includes('view 6') || txt.includes('ranked memories')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4);
+            e.preventDefault(); e.stopPropagation(); setScreen(4, 'tab-library');
           }
           // Screen 4: "View Memory" or "Inspect"
           else if (txt.includes('view memory') || txt.includes('inspect')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(5);
+            e.preventDefault(); e.stopPropagation(); setScreen(5, 'tab-photos');
           }
           // Screen 4: "Refine"
           else if (txt.includes('refine')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(3);
+            e.preventDefault(); e.stopPropagation(); setScreen(3, 'tab-memories');
           }
           // Screen 5: "Back to candidates"
           else if (txt.includes('back to candidates')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4);
+            e.preventDefault(); e.stopPropagation(); setScreen(4, 'tab-library');
           }
           // Screen 5: "Search another memory"
           else if (txt.includes('search another memory')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(1);
+            e.preventDefault(); e.stopPropagation(); setScreen(1, 'tab-search');
           }
         }, true);
 
