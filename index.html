@@ -6,26 +6,25 @@
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Exact Modern Smartphone Aspect Ratio & Clean Bezel */
+    /* Fixed 390px x 844px mobile viewport */
     .device-shell {
-      width: min(390px, 100vw - 16px);
-      height: min(844px, calc(100dvh - 120px));
+      width: 390px;
+      height: 844px;
       border-radius: 44px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 10px #171717;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 10px #1f2937;
+      flex-shrink: 0;
     }
     @media (max-width: 440px) {
       .device-shell {
         width: 100vw;
-        height: calc(100dvh - 90px);
+        height: 100dvh;
         border-radius: 0;
         box-shadow: none;
-        border: none;
       }
     }
   </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-between min-h-screen p-2 sm:p-4 font-sans select-none overflow-x-hidden">
-
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen py-6 px-2 font-sans select-none overflow-y-auto">
   <!-- Top Controller Strip -->
   <header class="w-full max-w-[390px] flex items-center justify-between pb-2 px-2">
     <div>
