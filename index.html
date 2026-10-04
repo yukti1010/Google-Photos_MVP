@@ -5,118 +5,405 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Ensure the iframe scales cleanly inside mobile screens */
-    .mobile-frame-container {
-      height: min(844px, calc(100dvh - 120px));
-      width: min(390px, 100vw - 24px);
-    }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    /* Hide scrollbars while keeping smooth touch scrolling */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-between min-h-screen p-3 sm:p-4 font-sans antialiased overflow-x-hidden">
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-center min-h-screen p-2 sm:p-4 font-sans select-none overflow-x-hidden">
 
-  <!-- Top Navigation & Flow Bar -->
-  <header class="w-full max-w-sm flex items-center justify-between pb-3 border-b border-neutral-800 mb-2">
+  <!-- Top Controller Strip -->
+  <header class="w-full max-w-[390px] flex items-center justify-between pb-3 px-2 mb-2">
     <div>
-      <h1 class="text-sm font-semibold tracking-tight text-blue-400">MemoryLens AI</h1>
-      <p id="screen-label" class="text-[11px] text-neutral-400">Step 1: Memory Search</p>
+      <h1 class="text-xs font-bold tracking-wider uppercase text-blue-400">MemoryLens AI</h1>
+      <p id="step-label" class="text-[11px] text-neutral-400">Step 1: Memory Search</p>
     </div>
 
-    <!-- Step Pills -->
-    <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Screen Steps">
-      <button onclick="setScreen(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-medium transition bg-blue-600 text-white">1</button>
-      <button onclick="setScreen(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">2</button>
-      <button onclick="setScreen(3)" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">3</button>
-      <button onclick="setScreen(4)" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">4</button>
-      <button onclick="setScreen(5)" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">5</button>
+    <!-- Step Indicator Pills -->
+    <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800">
+      <button onclick="goTo(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white">1</button>
+      <button onclick="goTo(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">2</button>
+      <button onclick="goTo(3)" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">3</button>
+      <button onclick="goTo(4)" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">4</button>
+      <button onclick="goTo(5)" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">5</button>
     </nav>
   </header>
 
-  <!-- Responsive Mobile Viewport Frame -->
-  <main class="mobile-frame-container bg-black rounded-[36px] shadow-2xl border-4 border-neutral-800 overflow-hidden relative flex flex-col">
-    <!-- Screen View -->
-    <iframe id="prototype-frame" src="Screen1.html" class="w-full h-full border-none" title="Screen Viewer"></iframe>
+  <!-- Mobile Frame (Realistic iPhone Pro 390x844 Shell) -->
+  <main class="w-[390px] h-[810px] max-h-[92vh] bg-white text-neutral-900 rounded-[44px] shadow-2xl border-[10px] border-neutral-900 overflow-hidden relative flex flex-col">
+    
+    <!-- Top Hardware Island -->
+    <div class="h-6 w-full bg-white flex justify-center items-center pt-2 relative z-30 shrink-0">
+      <div class="w-24 h-4 bg-neutral-900 rounded-full"></div>
+    </div>
+
+    <!-- Screen Scrollable Viewport -->
+    <div id="viewport" class="flex-1 overflow-y-auto no-scrollbar relative flex flex-col">
+
+      <!-- ================= SCREEN 1: SEARCH & QUERY ================= -->
+      <section id="screen-1" class="p-4 flex flex-col flex-1">
+        <div class="flex items-center justify-between pb-3 border-b border-neutral-100">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-blue-600">auto_awesome</span>
+            <span class="font-bold text-sm tracking-tight text-neutral-800">Google Photos</span>
+          </div>
+          <span class="text-[10px] font-semibold uppercase tracking-wider bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">MemoryLens</span>
+        </div>
+
+        <div class="mt-4">
+          <h2 class="text-xl font-bold text-neutral-900 leading-tight">What do you remember?</h2>
+          <p class="text-xs text-neutral-500 mt-1">Describe the story, feelings, or details. We'll piece together the rest.</p>
+        </div>
+
+        <!-- Query Input Box -->
+        <div class="mt-4 p-3.5 bg-neutral-50 rounded-2xl border border-neutral-200 shadow-inner">
+          <div class="flex items-center gap-1.5 text-blue-600 mb-1.5">
+            <span class="material-symbols-outlined text-base">psychology</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Listening Context</span>
+          </div>
+          <p class="text-sm font-medium text-neutral-800 italic leading-snug">“blue floral dress at my friend's wedding”</p>
+          
+          <div class="flex flex-wrap gap-1.5 mt-3 pt-2 border-t border-neutral-200">
+            <span class="text-[11px] bg-blue-100/70 text-blue-800 px-2 py-0.5 rounded-md font-medium">Color: Blue</span>
+            <span class="text-[11px] bg-purple-100/70 text-purple-800 px-2 py-0.5 rounded-md font-medium">Floral dress</span>
+            <span class="text-[11px] bg-emerald-100/70 text-emerald-800 px-2 py-0.5 rounded-md font-medium">Friend's Wedding</span>
+          </div>
+        </div>
+
+        <!-- Main Trigger CTA -->
+        <button onclick="goTo(2)" class="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
+          <span>Find this memory</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </button>
+
+        <!-- Instant Echoes -->
+        <div class="mt-5">
+          <p class="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">Instant Echoes (3 found)</p>
+          <div class="grid grid-cols-3 gap-2 mt-2">
+            <img src="screen1.png" class="h-20 w-full object-cover rounded-xl border border-neutral-200" alt="Echo 1" />
+            <img src="screen2.png" class="h-20 w-full object-cover rounded-xl border border-neutral-200" alt="Echo 2" />
+            <img src="screen3.png" class="h-20 w-full object-cover rounded-xl border border-neutral-200" alt="Echo 3" />
+          </div>
+        </div>
+
+        <div class="mt-auto pt-4 text-center">
+          <p class="text-[11px] text-neutral-400">💡 No exact dates needed. What people wore or how it felt is enough.</p>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 2: PARSING STORY ================= -->
+      <section id="screen-2" class="p-4 hidden flex-col flex-1">
+        <div class="flex items-center justify-between pb-3 border-b border-neutral-100">
+          <span class="text-xs font-semibold text-neutral-500">Step 2 of 4 · Parsing Memory Story</span>
+          <span class="text-[10px] font-bold bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full">3 Anchors</span>
+        </div>
+
+        <div class="mt-3 p-3 bg-blue-50/60 rounded-xl border border-blue-100">
+          <p class="text-xs text-neutral-700 italic">“blue floral dress at my friend's wedding”</p>
+        </div>
+
+        <h3 class="text-sm font-bold text-neutral-900 mt-4 flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base text-blue-600">psychology</span>
+          AI-extracted memory cues
+        </h3>
+
+        <!-- Cue Cards -->
+        <div class="space-y-2.5 mt-2.5">
+          <div class="p-2.5 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-purple-600 text-lg">celebration</span>
+              <div>
+                <p class="text-[10px] uppercase font-bold text-neutral-400">Event Anchor</p>
+                <p class="text-xs font-semibold text-neutral-800">Wedding Celebration</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-emerald-600">98%</span>
+          </div>
+
+          <div class="p-2.5 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-blue-600 text-lg">checkroom</span>
+              <div>
+                <p class="text-[10px] uppercase font-bold text-neutral-400">Wardrobe Cues</p>
+                <p class="text-xs font-semibold text-neutral-800">Blue Floral Dress Pattern</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-emerald-600">94%</span>
+          </div>
+
+          <div class="p-2.5 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-amber-600 text-lg">group</span>
+              <div>
+                <p class="text-[10px] uppercase font-bold text-neutral-400">Social Context</p>
+                <p class="text-xs font-semibold text-neutral-800">Friend Circle / Social Graph</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-emerald-600">91%</span>
+          </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-neutral-900 text-white rounded-2xl shadow-lg">
+          <p class="text-xs text-neutral-300 leading-relaxed">
+            I understand the moment. I need one more clue to narrow it down from <strong class="text-white">142 candidate photos</strong>.
+          </p>
+          <button onclick="goTo(3)" class="w-full mt-3 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition">
+            <span>Help me clarify</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+        </div>
+
+        <button onclick="goTo(4)" class="mt-3 text-center text-xs text-neutral-500 hover:text-neutral-800 underline">
+          Skip and show all 142 unclarified matches
+        </button>
+      </section>
+
+      <!-- ================= SCREEN 3: SENSORY CLARIFICATION ================= -->
+      <section id="screen-3" class="p-4 hidden flex-col flex-1">
+        <div class="pb-2 border-b border-neutral-100 flex items-center justify-between">
+          <h2 class="text-base font-bold text-neutral-900 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-blue-600 text-lg">psychology_alt</span>
+            Refining your memory
+          </h2>
+          <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-bold">2 Questions</span>
+        </div>
+
+        <p class="text-xs text-neutral-500 mt-2">Single-tap sensory clues to eliminate result fatigue:</p>
+
+        <!-- Question 1: Sensory Lighting -->
+        <div class="mt-3">
+          <p class="text-xs font-bold text-neutral-800 mb-1.5">1. What was the lighting / atmosphere?</p>
+          <div class="grid grid-cols-2 gap-2" id="q1-options">
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100">☀️ Bright Daylight</button>
+            <button onclick="toggleChip(this, true)" class="px-3 py-2 text-xs font-semibold rounded-xl border border-blue-500 text-blue-800 bg-blue-50 text-left">🌅 Golden Hour / Sunset ✓</button>
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100">✨ Night / Fairy Lights</button>
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100">💡 Indoor Ambient</button>
+          </div>
+        </div>
+
+        <!-- Question 2: Setting -->
+        <div class="mt-4">
+          <p class="text-xs font-bold text-neutral-800 mb-1.5">2. Where do you remember this moment?</p>
+          <div class="grid grid-cols-2 gap-2" id="q2-options">
+            <button onclick="toggleChip(this, true)" class="px-3 py-2 text-xs font-semibold rounded-xl border border-blue-500 text-blue-800 bg-blue-50 text-left">🌿 Outdoor Garden ✓</button>
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100">🍇 Vineyard / Estate</button>
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100">🏛️ Banquet Hall</button>
+            <button onclick="toggleChip(this)" class="px-3 py-2 text-xs font-medium rounded-neutral-200 text-neutral-500 bg-neutral-50 text-left hover:bg-neutral-100">❓ Not sure</button>
+          </div>
+        </div>
+
+        <!-- Neural Precision Indicator -->
+        <div class="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+          <p class="text-xs font-semibold text-emerald-800">
+            🎯 Narrowed from <strong>142</strong> down to <strong>6</strong> highly confident photos.
+          </p>
+        </div>
+
+        <button onclick="goTo(4)" class="w-full mt-auto py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/20 transition">
+          <span class="material-symbols-outlined text-base">auto_awesome</span>
+          <span>View 6 Ranked Memories</span>
+        </button>
+      </section>
+
+      <!-- ================= SCREEN 4: RANKED CANDIDATES ================= -->
+      <section id="screen-4" class="p-4 hidden flex-col flex-1">
+        <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
+          <div>
+            <h2 class="text-base font-bold text-neutral-900 leading-tight">6 Ranked Candidates</h2>
+            <p class="text-[11px] text-neutral-500">Ranked by semantic story alignment</p>
+          </div>
+          <button onclick="goTo(3)" class="text-xs text-blue-600 font-semibold flex items-center gap-0.5">
+            <span class="material-symbols-outlined text-sm">tune</span> Refine
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-1 mt-2">
+          <span class="text-[10px] font-semibold bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full">✓ Golden Hour</span>
+          <span class="text-[10px] font-semibold bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full">✓ Outdoor Garden</span>
+          <span class="text-[10px] font-semibold bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full">✓ Blue Floral Dress</span>
+        </div>
+
+        <!-- Candidate Cards -->
+        <div class="space-y-3 mt-3">
+          <!-- Hero Match #1 -->
+          <div class="bg-neutral-50 rounded-2xl border-2 border-blue-500/80 p-2.5 shadow-sm">
+            <div class="relative rounded-xl overflow-hidden">
+              <img src="screen4.png" class="w-full h-36 object-cover" alt="Garden Gala" />
+              <span class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                98% Story Match · Top Result
+              </span>
+            </div>
+            <div class="mt-2 flex items-start justify-between">
+              <div>
+                <p class="text-xs font-bold text-neutral-900">June 18 · Garden Gala</p>
+                <p class="text-[11px] text-neutral-500">Blue floral dress + outdoor garden lighting with friends</p>
+              </div>
+            </div>
+            <div class="mt-2.5 flex items-center gap-2">
+              <button onclick="goTo(5)" class="flex-1 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1 transition">
+                <span>View Memory</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+              <button onclick="this.textContent = 'Feedback noted ✓'" class="px-2.5 py-1.5 bg-neutral-200 hover:bg-neutral-300 text-neutral-700 text-xs rounded-lg font-medium transition">
+                Not this
+              </button>
+            </div>
+          </div>
+
+          <!-- Match #2 -->
+          <div class="bg-neutral-50 rounded-xl border border-neutral-200 p-2">
+            <div class="flex gap-2.5 items-center">
+              <img src="screen5.png" class="w-16 h-16 rounded-lg object-cover" alt="Match 2" />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.2 rounded">94% Match</span>
+                  <span class="text-[10px] text-neutral-400">Aug 27</span>
+                </div>
+                <p class="text-xs font-semibold text-neutral-800 truncate mt-0.5">Sky blue floral wrap dress</p>
+                <p class="text-[10px] text-neutral-500 truncate">Outdoor vineyard toast</p>
+              </div>
+              <button onclick="goTo(5)" class="px-2 py-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs rounded-md">Inspect</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Footer -->
+        <div class="mt-auto pt-3 text-center">
+          <p class="text-[11px] text-neutral-400">Teaching MemoryLens: Marking incorrect matches refines future recall.</p>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 5: VERIFIED MEMORY ================= -->
+      <section id="screen-5" class="p-4 hidden flex-col flex-1">
+        <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
+          <button onclick="goTo(4)" class="flex items-center gap-1 text-xs font-semibold text-neutral-600">
+            <span class="material-symbols-outlined text-base">arrow_back</span> Candidates
+          </button>
+          <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">99.4% Match Verified</span>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden mt-3 shadow-md">
+          <img src="screen5.png" class="w-full h-44 object-cover" alt="Verified Memory" />
+          <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-md p-2 rounded-xl text-white">
+            <p class="text-xs font-bold">Meadowood Gardens, Napa Valley</p>
+            <p class="text-[10px] text-neutral-300">June 18, 2023 · 5:42 PM</p>
+          </div>
+        </div>
+
+        <!-- Quick Validation Action -->
+        <div class="mt-2.5 p-2 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between">
+          <span class="text-xs font-medium text-neutral-700">Is this the right moment?</span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="this.classList.toggle('text-blue-600')" class="p-1 hover:bg-neutral-200 rounded text-neutral-500">
+              <span class="material-symbols-outlined text-lg">thumb_up</span>
+            </button>
+            <button onclick="goTo(4)" class="p-1 hover:bg-neutral-200 rounded text-neutral-500">
+              <span class="material-symbols-outlined text-lg">thumb_down</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Why I Found It (Multimodal Reasoning) -->
+        <div class="mt-3">
+          <p class="text-xs font-bold text-neutral-900 mb-1.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-blue-600 text-base">psychology</span>
+            Why I found it
+          </p>
+          <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+            <div class="p-2 bg-neutral-50 rounded-lg border border-neutral-200">
+              <span class="font-bold text-neutral-700 block">🎨 Pattern match</span>
+              <span class="text-neutral-500 text-[10px]">Navy A-line dress with warm coral floral print.</span>
+            </div>
+            <div class="p-2 bg-neutral-50 rounded-lg border border-neutral-200">
+              <span class="font-bold text-neutral-700 block">👥 Social context</span>
+              <span class="text-neutral-500 text-[10px]">Detected 4 close contacts laughing together.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recovery / Escape Hatch -->
+        <div class="mt-auto pt-3 flex flex-col gap-1.5">
+          <button onclick="goTo(1)" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow">
+            Search another memory
+          </button>
+          <button onclick="goTo(4)" class="w-full py-1.5 bg-neutral-100 text-neutral-700 rounded-xl text-xs font-medium">
+            Not the one? Back to candidates
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="h-12 w-full bg-neutral-50 border-t border-neutral-200 flex justify-around items-center px-2 shrink-0">
+      <button class="flex flex-col items-center text-blue-600">
+        <span class="material-symbols-outlined text-lg">photo_library</span>
+        <span class="text-[9px] font-bold">Photos</span>
+      </button>
+      <button class="flex flex-col items-center text-neutral-400">
+        <span class="material-symbols-outlined text-lg">filter_vintage</span>
+        <span class="text-[9px]">Memories</span>
+      </button>
+      <button class="flex flex-col items-center text-neutral-400">
+        <span class="material-symbols-outlined text-lg">folder_shared</span>
+        <span class="text-[9px]">Library</span>
+      </button>
+      <button class="flex flex-col items-center text-neutral-400">
+        <span class="material-symbols-outlined text-lg">search</span>
+        <span class="text-[9px]">Search</span>
+      </button>
+    </div>
   </main>
 
-  <!-- Bottom Interactive Next / Back Quick Controls -->
-  <footer class="w-full max-w-sm flex items-center justify-between pt-3 mt-2 border-t border-neutral-900 text-xs">
-    <button onclick="prevScreen()" class="px-3 py-1.5 rounded-lg bg-neutral-800 text-neutral-300 hover:bg-neutral-700 transition">
-      ← Previous
-    </button>
-    <span class="text-neutral-500 text-[11px]">Tap buttons or screen numbers</span>
-    <button onclick="nextScreen()" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 transition">
-      Next Step →
-    </button>
-  </footer>
-
   <script>
-    let currentScreen = 1;
-    const screens = {
-      1: { file: 'Screen1.html', label: 'Step 1: Memory Search' },
-      2: { file: 'Screen2.html', label: 'Step 2: AI Parsing' },
-      3: { file: 'Screen3.html', label: 'Step 3: Sensory Clarification' },
-      4: { file: 'Screen4.html', label: 'Step 4: Ranked Candidates' },
-      5: { file: 'Screen5.html', label: 'Step 5: Memory Found' }
+    let currentStep = 1;
+    const labels = {
+      1: 'Step 1: Memory Search',
+      2: 'Step 2: AI Parsing',
+      3: 'Step 3: Sensory Clarification',
+      4: 'Step 4: Ranked Candidates',
+      5: 'Step 5: Memory Found'
     };
 
-    function setScreen(num) {
-      currentScreen = num;
-      const iframe = document.getElementById('prototype-frame');
-      iframe.src = screens[num].file;
-      document.getElementById('screen-label').textContent = screens[num].label;
+    function goTo(step) {
+      if (step < 1 || step > 5) return;
+      currentStep = step;
 
+      // Hide all screens
       for (let i = 1; i <= 5; i++) {
+        const screen = document.getElementById(`screen-${i}`);
         const pill = document.getElementById(`pill-${i}`);
-        if (i === num) {
-          pill.className = "w-7 h-7 text-xs rounded-full font-medium transition bg-blue-600 text-white";
-        } else {
-          pill.className = "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white";
+        if (screen) {
+          if (i === step) {
+            screen.classList.remove('hidden');
+            screen.classList.add('flex');
+          } else {
+            screen.classList.add('hidden');
+            screen.classList.remove('flex');
+          }
+        }
+        if (pill) {
+          pill.className = (i === step)
+            ? "w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white"
+            : "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white";
         }
       }
+
+      document.getElementById('step-label').textContent = labels[step];
+      document.getElementById('viewport').scrollTop = 0;
     }
 
-    function nextScreen() {
-      if (currentScreen < 5) setScreen(currentScreen + 1);
+    function toggleChip(button, isDefault) {
+      const parent = button.parentElement;
+      parent.querySelectorAll('button').forEach(btn => {
+        btn.className = "px-3 py-2 text-xs font-medium rounded-xl border border-neutral-200 text-neutral-700 bg-neutral-50 text-left hover:bg-neutral-100";
+      });
+      button.className = "px-3 py-2 text-xs font-semibold rounded-xl border border-blue-500 text-blue-800 bg-blue-50 text-left";
     }
-
-    function prevScreen() {
-      if (currentScreen > 1) setScreen(currentScreen - 1);
-    }
-
-    // Automatically bind clicks inside the iframes so buttons transition forward
-    const iframe = document.getElementById('prototype-frame');
-    iframe.onload = function() {
-      try {
-        const doc = iframe.contentDocument || iframe.contentWindow.document;
-
-        // Make every interactive-looking CTA forward to the next screen
-        doc.querySelectorAll('button, a, [role="button"]').forEach(el => {
-          const text = (el.innerText || '').toLowerCase();
-          
-          if (text.includes('find this memory') || text.includes('help me find it')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(2); };
-          } else if (text.includes('refining') || text.includes('clue') || text.includes('unclarified')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(3); };
-          } else if (text.includes('view 6') || text.includes('ranked') || text.includes('memories')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
-          } else if (text.includes('view memory') || text.includes('inspect')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(5); };
-          } else if (text.includes('back to candidates')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
-          } else if (text.includes('search another memory')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(1); };
-          }
-        });
-      } catch (err) {
-        console.warn("Cross-frame binding limited:", err);
-      }
-    };
   </script>
 </body>
 </html>
