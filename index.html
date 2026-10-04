@@ -2,20 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the iframe scales cleanly inside mobile screens */
+    .mobile-frame-container {
+      height: min(844px, calc(100dvh - 120px));
+      width: min(390px, 100vw - 24px);
+    }
+  </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen p-4 sm:p-6 font-sans antialiased">
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-between min-h-screen p-3 sm:p-4 font-sans antialiased overflow-x-hidden">
 
-  <!-- Header / Navigation Bar -->
-  <header class="w-full max-w-sm flex items-center justify-between pb-3 border-b border-neutral-800 mb-4">
+  <!-- Top Navigation & Flow Bar -->
+  <header class="w-full max-w-sm flex items-center justify-between pb-3 border-b border-neutral-800 mb-2">
     <div>
       <h1 class="text-sm font-semibold tracking-tight text-blue-400">MemoryLens AI</h1>
-      <p class="text-[11px] text-neutral-500">Google Photos Interactive Prototype</p>
+      <p id="screen-label" class="text-[11px] text-neutral-400">Step 1: Memory Search</p>
     </div>
 
-    <!-- 5 Step Pills -->
+    <!-- Step Pills -->
     <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Screen Steps">
       <button onclick="setScreen(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-medium transition bg-blue-600 text-white">1</button>
       <button onclick="setScreen(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">2</button>
@@ -25,22 +32,39 @@
     </nav>
   </header>
 
-  <!-- Mobile Viewport Frame -->
-  <main class="w-full max-w-sm h-[820px] bg-black rounded-[40px] shadow-2xl border-4 border-neutral-800 overflow-hidden relative">
+  <!-- Responsive Mobile Viewport Frame -->
+  <main class="mobile-frame-container bg-black rounded-[36px] shadow-2xl border-4 border-neutral-800 overflow-hidden relative flex flex-col">
+    <!-- Screen View -->
     <iframe id="prototype-frame" src="Screen1.html" class="w-full h-full border-none" title="Screen Viewer"></iframe>
   </main>
 
+  <!-- Bottom Interactive Next / Back Quick Controls -->
+  <footer class="w-full max-w-sm flex items-center justify-between pt-3 mt-2 border-t border-neutral-900 text-xs">
+    <button onclick="prevScreen()" class="px-3 py-1.5 rounded-lg bg-neutral-800 text-neutral-300 hover:bg-neutral-700 transition">
+      ← Previous
+    </button>
+    <span class="text-neutral-500 text-[11px]">Tap buttons or screen numbers</span>
+    <button onclick="nextScreen()" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 transition">
+      Next Step →
+    </button>
+  </footer>
+
   <script>
+    let currentScreen = 1;
     const screens = {
-      1: 'Screen1.html',
-      2: 'Screen2.html',
-      3: 'Screen3.html',
-      4: 'Screen4.html',
-      5: 'Screen5.html'
+      1: { file: 'Screen1.html', label: 'Step 1: Memory Search' },
+      2: { file: 'Screen2.html', label: 'Step 2: AI Parsing' },
+      3: { file: 'Screen3.html', label: 'Step 3: Sensory Clarification' },
+      4: { file: 'Screen4.html', label: 'Step 4: Ranked Candidates' },
+      5: { file: 'Screen5.html', label: 'Step 5: Memory Found' }
     };
 
     function setScreen(num) {
-      document.getElementById('prototype-frame').src = screens[num];
+      currentScreen = num;
+      const iframe = document.getElementById('prototype-frame');
+      iframe.src = screens[num].file;
+      document.getElementById('screen-label').textContent = screens[num].label;
+
       for (let i = 1; i <= 5; i++) {
         const pill = document.getElementById(`pill-${i}`);
         if (i === num) {
@@ -50,6 +74,49 @@
         }
       }
     }
+
+    function nextScreen() {
+      if (currentScreen < 5) setScreen(currentScreen + 1);
+    }
+
+    function prevScreen() {
+      if (currentScreen > 1) setScreen(currentScreen - 1);
+    }
+
+    // Automatically bind clicks inside the iframes so buttons transition forward
+    const iframe = document.getElementById('prototype-frame');
+    iframe.onload = function() {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Make every interactive-looking CTA forward to the next screen
+        doc.querySelectorAll('button, a, [role="button"]').forEach(el => {
+          const text = (el.innerText || '').toLowerCase();
+          
+          if (text.includes('find this memory') || text.includes('help me find it')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(2); };
+          } else if (text.includes('refining') || text.includes('clue') || text.includes('unclarified')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(3); };
+          } else if (text.includes('view 6') || text.includes('ranked') || text.includes('memories')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
+          } else if (text.includes('view memory') || text.includes('inspect')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(5); };
+          } else if (text.includes('back to candidates')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
+          } else if (text.includes('search another memory')) {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => { e.preventDefault(); setScreen(1); };
+          }
+        });
+      } catch (err) {
+        console.warn("Cross-frame binding limited:", err);
+      }
+    };
   </script>
 </body>
 </html>
