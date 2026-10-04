@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Fixed 390px x 844px mobile viewport */
+    /* Fixed 375px x 812px mobile chassis */
     .device-shell {
-      width: 390px;
-      height: 844px;
-      border-radius: 44px;
+      width: 375px;
+      height: 812px;
+      border-radius: 40px;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 10px #1f2937;
       flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: #000;
     }
-    @media (max-width: 440px) {
+
+    @media (max-width: 400px) {
       .device-shell {
         width: 100vw;
         height: 100dvh;
@@ -25,15 +29,16 @@
   </style>
 </head>
 <body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen py-6 px-2 font-sans select-none overflow-y-auto">
-  <!-- Top Controller Strip -->
-  <header class="w-full max-w-[390px] flex items-center justify-between pb-2 px-2">
+
+  <!-- Top Controller Strip (Aligned to 375px) -->
+  <header class="w-full max-w-[375px] flex items-center justify-between pb-3 px-1 mb-2">
     <div>
       <h1 class="text-xs font-bold tracking-wider uppercase text-blue-400">MemoryLens AI</h1>
       <p id="screen-label" class="text-[11px] text-neutral-400">Step 1 · Memory Search</p>
     </div>
 
     <!-- Step Indicator Pills -->
-    <nav class="flex gap-1.5 bg-neutral-900 p-1 rounded-full border border-neutral-800">
+    <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Step Navigation">
       <button onclick="setScreen(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white">1</button>
       <button onclick="setScreen(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">2</button>
       <button onclick="setScreen(3)" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">3</button>
@@ -42,23 +47,23 @@
     </nav>
   </header>
 
-  <!-- Phone Shell Loading Your Real Stitch Screens -->
-  <main class="device-shell bg-black relative flex flex-col overflow-hidden">
-    <!-- Dynamic Island Notch -->
-    <div class="h-6 w-full bg-transparent flex justify-center items-center pt-2 absolute top-0 left-0 z-50 pointer-events-none">
-      <div class="w-24 h-4 bg-black rounded-full"></div>
+  <!-- Phone Shell (375px x 812px) -->
+  <main class="device-shell">
+    <!-- Top Notch / Island Indicator -->
+    <div class="h-5 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
+      <div class="w-24 h-3.5 bg-black rounded-full"></div>
     </div>
 
-    <!-- Iframe rendering your exact Stitch HTML files -->
-    <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="MemoryLens Screen"></iframe>
+    <!-- Screen Frame -->
+    <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
   </main>
 
-  <!-- Bottom Fast-Nav Toolbar -->
-  <footer class="w-full max-w-[390px] flex items-center justify-between pt-2 px-2 text-xs">
+  <!-- Bottom Fast-Nav Toolbar (Aligned to 375px) -->
+  <footer class="w-full max-w-[375px] flex items-center justify-between pt-3 px-1 mt-2 text-xs">
     <button onclick="prevScreen()" class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition">
       ← Back
     </button>
-    <span class="text-neutral-500 text-[11px]">Tap screen buttons or step numbers</span>
+    <span class="text-neutral-500 text-[11px]">Tap screen buttons or numbers</span>
     <button onclick="nextScreen()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-500 active:scale-95 transition">
       Next →
     </button>
@@ -100,17 +105,15 @@
       try {
         const doc = frame.contentDocument || frame.contentWindow.document;
 
-        // Auto-scale content if needed
+        // Clean up scrollbars inside iframe
         const style = doc.createElement('style');
         style.textContent = `
-          body { -webkit-font-smoothing: antialiased; }
-          /* Ensure smooth scroll and hide ugly double scrollbars */
           ::-webkit-scrollbar { display: none; }
           * { -ms-overflow-style: none; scrollbar-width: none; }
         `;
         doc.head.appendChild(style);
 
-        // Map every clickable button/link to its respective screen
+        // Bind interactive buttons inside the Stitch HTML files
         doc.querySelectorAll('button, a, [role="button"], div[onclick]').forEach(el => {
           const txt = (el.innerText || '').trim().toLowerCase();
 
@@ -144,19 +147,19 @@
             el.style.cursor = 'pointer';
             el.onclick = (e) => { e.preventDefault(); setScreen(3); };
           }
-          // Screen 5 -> Screen 4 (Back)
+          // Screen 5 -> Screen 4 (Back to Candidates)
           else if (txt.includes('back to candidates')) {
             el.style.cursor = 'pointer';
             el.onclick = (e) => { e.preventDefault(); setScreen(4); };
           }
-          // Screen 5 -> Screen 1 (Restart)
+          // Screen 5 -> Screen 1 (Restart Search)
           else if (txt.includes('search another memory')) {
             el.style.cursor = 'pointer';
             el.onclick = (e) => { e.preventDefault(); setScreen(1); };
           }
         });
       } catch (err) {
-        console.warn('Iframe binding note:', err);
+        console.warn('Iframe cross-origin binding notice:', err);
       }
     };
   </script>
