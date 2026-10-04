@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Photos — MemoryLens AI MVP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen p-4 sm:p-6 font-sans antialiased">
+
+  <!-- Header / Navigation Bar -->
+  <header class="w-full max-w-sm flex items-center justify-between pb-3 border-b border-neutral-800 mb-4">
+    <div>
+      <h1 class="text-sm font-semibold tracking-tight text-blue-400">MemoryLens AI</h1>
+      <p class="text-[11px] text-neutral-500">Google Photos Interactive Prototype</p>
+    </div>
+
+    <!-- 5 Step Pills -->
+    <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Screen Steps">
+      <button onclick="setScreen(1)" id="pill-1" class="w-7 h-7 text-xs rounded-full font-medium transition bg-blue-600 text-white">1</button>
+      <button onclick="setScreen(2)" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">2</button>
+      <button onclick="setScreen(3)" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">3</button>
+      <button onclick="setScreen(4)" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">4</button>
+      <button onclick="setScreen(5)" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white">5</button>
+    </nav>
+  </header>
+
+  <!-- Mobile Viewport Frame -->
+  <main class="w-full max-w-sm h-[820px] bg-black rounded-[40px] shadow-2xl border-4 border-neutral-800 overflow-hidden relative">
+    <iframe id="prototype-frame" src="Screen1.html" class="w-full h-full border-none" title="Screen Viewer"></iframe>
+  </main>
+
+  <script>
+    const screens = {
+      1: 'Screen1.html',
+      2: 'Screen2.html',
+      3: 'Screen3.html',
+      4: 'Screen4.html',
+      5: 'Screen5.html'
+    };
+
+    function setScreen(num) {
+      document.getElementById('prototype-frame').src = screens[num];
+      for (let i = 1; i <= 5; i++) {
+        const pill = document.getElementById(`pill-${i}`);
+        if (i === num) {
+          pill.className = "w-7 h-7 text-xs rounded-full font-medium transition bg-blue-600 text-white";
+        } else {
+          pill.className = "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
