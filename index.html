@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Fixed 375px x 812px mobile frame */
+    /* Fixed 375px x 812px mobile chassis */
     .device-shell {
       width: 375px;
       height: 812px;
@@ -40,7 +40,7 @@
 
     <!-- Step Indicator Pills -->
     <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Step Navigation">
-      <button onclick="setScreen(1, 'tab-search')" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
+      <button onclick="setScreen(1, 'tab-photos')" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
       <button onclick="setScreen(2, 'tab-search')" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
       <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
       <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
@@ -58,9 +58,9 @@
     <!-- Active Screen Frame -->
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
 
-    <!-- NATIVE CLICKABLE TASKBAR OVERLAY (Z-Index 99999 ensures it intercepts all bottom clicks) -->
+    <!-- NATIVE CLICKABLE TASKBAR OVERLAY -->
     <div style="z-index: 99999;" class="absolute bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-neutral-200 flex items-center justify-around px-2 text-neutral-500 shadow-lg">
-      <button onclick="setScreen(1, 'tab-photos')" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(1, 'tab-photos')" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">photo_library</span>
         <span class="text-[10px] font-semibold mt-0.5">Photos</span>
       </button>
@@ -72,7 +72,7 @@
         <span class="material-symbols-outlined text-[22px]">folder_shared</span>
         <span class="text-[10px] font-semibold mt-0.5">Library</span>
       </button>
-      <button onclick="setScreen(1, 'tab-search')" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-95 cursor-pointer">
+      <button onclick="setScreen(1, 'tab-search')" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-95 cursor-pointer">
         <span class="material-symbols-outlined text-[22px]">search</span>
         <span class="text-[10px] font-semibold mt-0.5">Search</span>
       </button>
@@ -93,7 +93,7 @@
   <script>
     let currentStep = 1;
     const screens = {
-      1: { file: 'Screen1.html', label: 'Step 1 · Memory Search', defaultTab: 'tab-search' },
+      1: { file: 'Screen1.html', label: 'Step 1 · Memory Search', defaultTab: 'tab-photos' },
       2: { file: 'Screen2.html', label: 'Step 2 · Parsing Story', defaultTab: 'tab-search' },
       3: { file: 'Screen3.html', label: 'Step 3 · Sensory Clarification', defaultTab: 'tab-memories' },
       4: { file: 'Screen4.html', label: 'Step 4 · Ranked Candidates', defaultTab: 'tab-library' },
@@ -127,7 +127,7 @@
         }
       });
 
-      // Highlight Selected Active Tab (Search, Photos, Memories, or Library)
+      // Highlight Selected Active Tab
       const targetTab = tabId || screens[num].defaultTab;
       const activeEl = document.getElementById(targetTab);
       if (activeEl) {
@@ -144,7 +144,7 @@
       try {
         const doc = frame.contentDocument || frame.contentWindow.document;
 
-        // Clean up scrollbars and hide Stitch's duplicate bottom bar
+        // Clean up scrollbars and hide Stitch's internal bottom bar
         const style = doc.createElement('style');
         style.textContent = `
           ::-webkit-scrollbar { display: none !important; }
