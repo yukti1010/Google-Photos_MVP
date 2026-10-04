@@ -6,7 +6,7 @@
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Fixed 375px x 812px mobile chassis */
+    /* Fixed 375px x 812px chassis */
     .device-shell {
       width: 375px;
       height: 812px;
@@ -30,7 +30,7 @@
 </head>
 <body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen py-6 px-2 font-sans select-none overflow-y-auto">
 
-  <!-- Top Controller Strip (Aligned to 375px) -->
+  <!-- Top Controller Strip (375px) -->
   <header class="w-full max-w-[375px] flex items-center justify-between pb-3 px-1 mb-2">
     <div>
       <h1 class="text-xs font-bold tracking-wider uppercase text-blue-400">MemoryLens AI</h1>
@@ -58,7 +58,7 @@
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
   </main>
 
-  <!-- Bottom Fast-Nav Toolbar (Aligned to 375px) -->
+  <!-- Bottom Fast-Nav Toolbar -->
   <footer class="w-full max-w-[375px] flex items-center justify-between pt-3 px-1 mt-2 text-xs">
     <button onclick="prevScreen()" class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition">
       ← Back
@@ -99,7 +99,6 @@
     function nextScreen() { if (currentStep < 5) setScreen(currentStep + 1); }
     function prevScreen() { if (currentStep > 1) setScreen(currentStep - 1); }
 
-    // Intercept clicks directly inside your Stitch screens so buttons navigate properly
     const frame = document.getElementById('stitch-frame');
     frame.onload = function() {
       try {
@@ -110,56 +109,62 @@
         style.textContent = `
           ::-webkit-scrollbar { display: none; }
           * { -ms-overflow-style: none; scrollbar-width: none; }
+          footer, nav, [class*="bottom-0"], [class*="fixed bottom"] {
+            z-index: 99999 !important;
+            pointer-events: auto !important;
+          }
         `;
         doc.head.appendChild(style);
 
-        // Bind interactive buttons inside the Stitch HTML files
-        doc.querySelectorAll('button, a, [role="button"], div[onclick]').forEach(el => {
-          const txt = (el.innerText || '').trim().toLowerCase();
+        // Bind clicks directly using capture mode
+        doc.addEventListener('click', function(e) {
+          const target = e.target.closest('a, button, div, span, p');
+          if (!target) return;
+          const txt = (target.textContent || '').trim().toLowerCase();
 
-          // Screen 1 -> Screen 2
-          if (txt.includes('find this memory') || el.closest('#find-btn')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(2); };
+          // 1. Bottom Taskbar items
+          if (txt.includes('photos')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
           }
-          // Screen 2 -> Screen 3
-          else if (txt.includes('help me find it') || txt.includes('need one more clue') || txt.includes('clarify')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(3); };
+          if (txt.includes('memories')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
           }
-          // Screen 2 -> Screen 4 (Skip)
-          else if (txt.includes('show all 142') || txt.includes('unclarified')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
+          if (txt.includes('library')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
           }
-          // Screen 3 -> Screen 4
-          else if (txt.includes('view 6') || txt.includes('ranked memories')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
+          if (txt.includes('search')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
           }
-          // Screen 4 -> Screen 5
-          else if (txt.includes('view memory') || txt.includes('inspect')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(5); };
+
+          // 2. Action Buttons & CTAs
+          if (txt.includes('find this memory')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(2); return;
           }
-          // Screen 4 -> Screen 3 (Refine)
-          else if (txt.includes('refine')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(3); };
+          if (txt.includes('help me find it') || txt.includes('need one more clue') || txt.includes('clarify')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
           }
-          // Screen 5 -> Screen 4 (Back to Candidates)
-          else if (txt.includes('back to candidates')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(4); };
+          if (txt.includes('show all 142') || txt.includes('unclarified')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
           }
-          // Screen 5 -> Screen 1 (Restart Search)
-          else if (txt.includes('search another memory')) {
-            el.style.cursor = 'pointer';
-            el.onclick = (e) => { e.preventDefault(); setScreen(1); };
+          if (txt.includes('view 6') || txt.includes('ranked memories')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
           }
-        });
+          if (txt.includes('view memory') || txt.includes('inspect')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(5); return;
+          }
+          if (txt.includes('refine')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
+          }
+          if (txt.includes('back to candidates')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
+          }
+          if (txt.includes('search another memory')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
+          }
+        }, true);
+
       } catch (err) {
-        console.warn('Iframe cross-origin binding notice:', err);
+        console.warn('Iframe cross-origin notice:', err);
       }
     };
   </script>
