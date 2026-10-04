@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google Photos — MemoryLens AI MVP</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
     /* Fixed 375px x 812px chassis */
     .device-shell {
@@ -54,8 +55,28 @@
       <div class="w-24 h-3.5 bg-black rounded-full"></div>
     </div>
 
-    <!-- Screen Frame -->
+    <!-- Active Screen Frame -->
     <iframe id="stitch-frame" src="Screen1.html" class="w-full h-full border-none bg-white" title="Screen Viewer"></iframe>
+
+    <!-- NATIVE CLICKABLE TASKBAR OVERLAY (Guaranteed click response) -->
+    <div class="absolute bottom-0 left-0 right-0 h-14 bg-white/95 backdrop-blur-md border-t border-neutral-200 z-50 flex items-center justify-around px-2 text-neutral-500">
+      <button onclick="setScreen(1)" id="tab-photos" class="flex flex-col items-center justify-center flex-1 h-full text-blue-600 transition active:scale-90">
+        <span class="material-symbols-outlined text-[20px]">photo_library</span>
+        <span class="text-[9px] font-semibold mt-0.5">Photos</span>
+      </button>
+      <button onclick="setScreen(3)" id="tab-memories" class="flex flex-col items-center justify-center flex-1 h-full hover:text-blue-600 transition active:scale-90">
+        <span class="material-symbols-outlined text-[20px]">filter_vintage</span>
+        <span class="text-[9px] font-semibold mt-0.5">Memories</span>
+      </button>
+      <button onclick="setScreen(4)" id="tab-library" class="flex flex-col items-center justify-center flex-1 h-full hover:text-blue-600 transition active:scale-90">
+        <span class="material-symbols-outlined text-[20px]">folder_shared</span>
+        <span class="text-[9px] font-semibold mt-0.5">Library</span>
+      </button>
+      <button onclick="setScreen(1)" id="tab-search" class="flex flex-col items-center justify-center flex-1 h-full hover:text-blue-600 transition active:scale-90">
+        <span class="material-symbols-outlined text-[20px]">search</span>
+        <span class="text-[9px] font-semibold mt-0.5">Search</span>
+      </button>
+    </div>
   </main>
 
   <!-- Bottom Fast-Nav Toolbar -->
@@ -63,7 +84,7 @@
     <button onclick="prevScreen()" class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition">
       ← Back
     </button>
-    <span class="text-neutral-500 text-[11px]">Tap screen buttons or numbers</span>
+    <span class="text-neutral-500 text-[11px]">Use bottom tabs or screen buttons</span>
     <button onclick="nextScreen()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-500 active:scale-95 transition">
       Next →
     </button>
@@ -86,6 +107,7 @@
       iframe.src = screens[num].file;
       document.getElementById('screen-label').textContent = screens[num].label;
 
+      // Update pills
       for (let i = 1; i <= 5; i++) {
         const pill = document.getElementById(`pill-${i}`);
         if (pill) {
@@ -94,6 +116,16 @@
             : "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white";
         }
       }
+
+      // Update taskbar active styling
+      const tabs = { 1: 'tab-photos', 3: 'tab-memories', 4: 'tab-library' };
+      ['tab-photos', 'tab-memories', 'tab-library', 'tab-search'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.className = "flex flex-col items-center justify-center flex-1 h-full text-neutral-400 hover:text-neutral-700 transition active:scale-90";
+      });
+      const activeTabId = tabs[num] || (num === 2 ? 'tab-photos' : 'tab-photos');
+      const activeTab = document.getElementById(activeTabId);
+      if (activeTab) activeTab.className = "flex flex-col items-center justify-center flex-1 h-full text-blue-600 font-bold transition active:scale-90";
     }
 
     function nextScreen() { if (currentStep < 5) setScreen(currentStep + 1); }
@@ -104,67 +136,47 @@
       try {
         const doc = frame.contentDocument || frame.contentWindow.document;
 
-        // Clean up scrollbars inside iframe
+        // Hide iframe's internal bottom bar and double scrollbars so our overlay is clean
         const style = doc.createElement('style');
         style.textContent = `
-          ::-webkit-scrollbar { display: none; }
-          * { -ms-overflow-style: none; scrollbar-width: none; }
-          footer, nav, [class*="bottom-0"], [class*="fixed bottom"] {
-            z-index: 99999 !important;
-            pointer-events: auto !important;
+          ::-webkit-scrollbar { display: none !important; }
+          * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+          footer, nav[class*="fixed bottom"], div[class*="fixed bottom-0"] {
+            display: none !important;
+          }
+          body {
+            padding-bottom: 60px !important;
           }
         `;
         doc.head.appendChild(style);
 
-        // Bind clicks directly using capture mode
+        // Bind in-page buttons accurately (checking leaf targets, not parent wrappers)
         doc.addEventListener('click', function(e) {
-          const target = e.target.closest('a, button, div, span, p');
-          if (!target) return;
-          const txt = (target.textContent || '').trim().toLowerCase();
+          const btn = e.target.closest('button, a, [role="button"]');
+          if (!btn) return;
+          const txt = (btn.innerText || btn.textContent || '').trim().toLowerCase();
 
-          // 1. Bottom Taskbar items
-          if (txt.includes('photos')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
-          }
-          if (txt.includes('memories')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
-          }
-          if (txt.includes('library')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
-          }
-          if (txt.includes('search')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
-          }
-
-          // 2. Action Buttons & CTAs
           if (txt.includes('find this memory')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(2); return;
-          }
-          if (txt.includes('help me find it') || txt.includes('need one more clue') || txt.includes('clarify')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
-          }
-          if (txt.includes('show all 142') || txt.includes('unclarified')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
-          }
-          if (txt.includes('view 6') || txt.includes('ranked memories')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
-          }
-          if (txt.includes('view memory') || txt.includes('inspect')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(5); return;
-          }
-          if (txt.includes('refine')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(3); return;
-          }
-          if (txt.includes('back to candidates')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(4); return;
-          }
-          if (txt.includes('search another memory')) {
-            e.preventDefault(); e.stopPropagation(); setScreen(1); return;
+            e.preventDefault(); e.stopPropagation(); setScreen(2);
+          } else if (txt.includes('help me find it') || txt.includes('need one more clue') || txt.includes('clarify')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(3);
+          } else if (txt.includes('show all 142') || txt.includes('unclarified')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4);
+          } else if (txt.includes('view 6') || txt.includes('ranked memories')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4);
+          } else if (txt.includes('view memory') || txt.includes('inspect')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(5);
+          } else if (txt.includes('refine')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(3);
+          } else if (txt.includes('back to candidates')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(4);
+          } else if (txt.includes('search another memory')) {
+            e.preventDefault(); e.stopPropagation(); setScreen(1);
           }
         }, true);
 
       } catch (err) {
-        console.warn('Iframe cross-origin notice:', err);
+        console.warn('Iframe notice:', err);
       }
     };
   </script>
