@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
-    /* Exact 375px x 812px iPhone chassis */
+    /* Strict 375px x 812px chassis */
     .device-shell {
       width: 375px;
       height: 812px;
@@ -17,32 +17,22 @@
       position: relative;
       overflow: hidden;
       background: #000;
-      transform-origin: top center;
     }
 
-    /* Auto-scale on smaller desktop displays to prevent cut-off */
-    @media (min-width: 441px) and (max-height: 940px) {
-      .device-shell {
-        transform: scale(calc((100vh - 120px) / 812));
-        margin-bottom: calc((812px * (1 - ((100vh - 120px) / 812))) * -1);
-      }
-    }
-
-    @media (max-width: 440px) {
+    @media (max-width: 400px) {
       .device-shell {
         width: 100vw;
         height: 100dvh;
         border-radius: 0;
         box-shadow: none;
-        transform: none;
       }
     }
   </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-between min-h-screen py-3 px-2 font-sans select-none overflow-hidden">
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center min-h-screen py-6 px-2 font-sans select-none overflow-y-auto">
 
   <!-- Top Controller Strip (375px) -->
-  <header class="w-full max-w-[375px] flex items-center justify-between pb-1 px-1">
+  <header class="w-full max-w-[375px] flex items-center justify-between pb-3 px-1 mb-2">
     <div>
       <h1 class="text-xs font-bold tracking-wider uppercase text-blue-400">MemoryLens AI</h1>
       <p id="screen-label" class="text-[11px] text-neutral-400">Step 1 · Memory Search</p>
@@ -50,19 +40,19 @@
 
     <!-- Step Indicator Pills -->
     <nav class="flex gap-1 bg-neutral-900 p-1 rounded-full border border-neutral-800" aria-label="Step Navigation">
-      <button onclick="setScreen(1, 'tab-photos')" id="pill-1" class="w-6 h-6 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
-      <button onclick="setScreen(2, 'tab-photos')" id="pill-2" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
-      <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
-      <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
-      <button onclick="setScreen(5, 'tab-photos')" id="pill-5" class="w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
+      <button onclick="setScreen(1, 'tab-photos')" id="pill-1" class="w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer">1</button>
+      <button onclick="setScreen(2, 'tab-photos')" id="pill-2" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">2</button>
+      <button onclick="setScreen(3, 'tab-memories')" id="pill-3" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">3</button>
+      <button onclick="setScreen(4, 'tab-library')" id="pill-4" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">4</button>
+      <button onclick="setScreen(5, 'tab-photos')" id="pill-5" class="w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer">5</button>
     </nav>
   </header>
 
-  <!-- 375px x 812px Scaled Shell -->
+  <!-- Phone Shell (375px x 812px) -->
   <main class="device-shell">
     <!-- Top Notch / Island Indicator -->
-    <div class="h-4 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
-      <div class="w-20 h-3 bg-black rounded-full"></div>
+    <div class="h-5 w-full bg-transparent flex justify-center items-center pt-1 absolute top-0 left-0 z-50 pointer-events-none">
+      <div class="w-24 h-3.5 bg-black rounded-full"></div>
     </div>
 
     <!-- Active Screen Frame -->
@@ -90,7 +80,7 @@
   </main>
 
   <!-- Bottom Fast-Nav Toolbar -->
-  <footer class="w-full max-w-[375px] flex items-center justify-between pt-1 px-1 text-xs">
+  <footer class="w-full max-w-[375px] flex items-center justify-between pt-3 px-1 mt-2 text-xs">
     <button onclick="prevScreen()" class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 active:scale-95 transition cursor-pointer">
       ← Back
     </button>
@@ -123,8 +113,8 @@
         const pill = document.getElementById(`pill-${i}`);
         if (pill) {
           pill.className = (i === num)
-            ? "w-6 h-6 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer"
-            : "w-6 h-6 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer";
+            ? "w-7 h-7 text-xs rounded-full font-bold transition bg-blue-600 text-white cursor-pointer"
+            : "w-7 h-7 text-xs rounded-full font-medium transition text-neutral-400 hover:text-white cursor-pointer";
         }
       }
 
@@ -137,7 +127,7 @@
         }
       });
 
-      // Highlight Active Tab
+      // Highlight Selected Active Tab
       const targetTab = tabId || screens[num].defaultTab;
       const activeEl = document.getElementById(targetTab);
       if (activeEl) {
@@ -154,7 +144,7 @@
       try {
         const doc = frame.contentDocument || frame.contentWindow.document;
 
-        // Clean up scrollbars and hide Stitch's internal bottom bar
+        // Clean up scrollbars and hide Stitch's duplicate bottom bar
         const style = doc.createElement('style');
         style.textContent = `
           ::-webkit-scrollbar { display: none !important; }
