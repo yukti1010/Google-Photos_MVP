@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
   <style>
     @layer base {
       html, body { width: 100vw; margin: 0; padding: 0; background-color: #f8f9ff; }
@@ -21,42 +20,90 @@
     ::-webkit-scrollbar { display: none; }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "on-error": "#ffffff",
-            "inverse-on-surface": "#eaf1ff",
-            "background": "#f8f9ff",
-            "primary-container": "#7c3aed",
-            "on-background": "#121c2a",
-            "surface-container-lowest": "#ffffff",
-            "on-error-container": "#93000a",
-            "surface-variant": "#d9e3f6",
-            "tertiary": "#005a3d",
-            "outline": "#7b7487",
-            "surface-tint": "#732ee4",
-            "on-primary-fixed-variant": "#5a00c6",
-            "on-primary-fixed": "#25005a",
-            "on-primary": "#ffffff",
-            "primary-fixed-dim": "#d2bbff",
-            "surface-dim": "#d0dbed",
-            "error-container": "#ffdad6",
-            "error": "#ba1a1a",
-            "inverse-surface": "#27313f",
-            "tertiary-fixed": "#85f8c4",
-            "on-primary-container": "#ede0ff",
-            "on-tertiary-fixed": "#002114",
-            "inverse-primary": "#d2bbff",
-            "surface-container-high": "#dee9fc",
-            "secondary-container": "#316bf3",
-            "on-tertiary": "#ffffff",
-            "surface-container-low": "#eff4ff",
-            "tertiary-container": "#007551",
-            "surface-container": "#e6eeff",
-            "outline-variant": "#ccc3d8",
-            "on-secondary-container": "#fefcff",
-            "on-surface": "#121c2a",
-            "
+</head>
+<body class="bg-[#f8f9ff] text-[#121c2a] flex flex-col min-h-screen">
+  <!-- Top App Header -->
+  <header class="sticky top-0 z-50 bg-[#f8f9ff]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-[#e6eeff]">
+    <div class="flex items-center gap-2 min-w-0">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="shrink-0">
+        <path d="M12 12V3.5a3.5 3.5 0 1 0-7 0V12h7z" fill="#EA4335" />
+        <path d="M12 12h8.5a3.5 3.5 0 1 0 0-7H12v7z" fill="#FBBC05" />
+        <path d="M12 12v8.5a3.5 3.5 0 1 0 7 0V12h-7z" fill="#34A853" />
+        <path d="M12 12H3.5a3.5 3.5 0 1 0 0 7H12v-7z" fill="#4285F4" />
+      </svg>
+      <div class="flex flex-col">
+        <span class="font-bold text-base tracking-tight leading-tight">Google Photos</span>
+        <span class="text-[10px] text-[#7c3aed] font-semibold tracking-wider uppercase">MemoryLens AI</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="p-2 text-[#7b7487] hover:text-[#121c2a]"><span class="material-symbols-outlined text-[22px]">search</span></button>
+      <button class="p-2 text-[#7c3aed] hover:opacity-80"><span class="material-symbols-outlined text-[22px]">auto_awesome</span></button>
+      <div class="w-8 h-8 rounded-full bg-[#dee9fc] border border-[#d0dbed] flex items-center justify-center font-bold text-xs text-[#316bf3]">YA</div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 px-4 py-4 max-w-md mx-auto w-full flex flex-col gap-5">
+    <div class="flex items-center gap-2 text-[#7c3aed] text-xs font-semibold">
+      <span class="material-symbols-outlined text-sm">auto_awesome</span>
+      <span>MemoryLens • Natural Recall</span>
+      <span class="material-symbols-outlined text-sm ml-auto text-gray-400">history</span>
+      <span class="material-symbols-outlined text-sm text-gray-400">tune</span>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-bold text-[#121c2a]">What do you remember?</h2>
+      <p class="text-xs text-[#7b7487] mt-0.5">Describe the story, feelings, or details. We'll piece together the rest.</p>
+    </div>
+
+    <!-- Active Thought Query Box -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-[#dee9fc] flex flex-col gap-3">
+      <div class="flex items-center justify-between text-xs text-[#7c3aed] font-semibold">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">psychology</span>
+          <span class="tracking-wide">ACTIVE THOUGHT QUERY</span>
+        </div>
+        <span class="text-[11px] text-gray-400 font-normal">Listening context</span>
+      </div>
+      <div class="flex items-center justify-between bg-[#f8f9ff] px-3 py-2.5 rounded-xl border border-[#e6eeff]">
+        <span class="text-sm font-medium italic text-[#121c2a]">"blue floral dress at my friend's wedding"</span>
+        <button class="text-gray-400 hover:text-gray-600"><span class="material-symbols-outlined text-sm">close</span></button>
+      </div>
+
+      <!-- Detected Cues Chips -->
+      <div class="flex items-center gap-1.5 flex-wrap pt-1">
+        <span class="text-[11px] text-gray-500 font-medium mr-1">Detected cues:</span>
+        <span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">palette</span> Color: Blue</span>
+        <span class="inline-flex items-center gap-1 bg-purple-50 text-purple-700 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">styler</span> Floral dress</span>
+        <span class="inline-flex items-center gap-1 bg-amber-50 text-amber-800 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">celebration</span> Friend's Wedding</span>
+      </div>
+
+      <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+        <div class="flex gap-1 text-gray-400">
+          <button class="p-1 hover:text-gray-700"><span class="material-symbols-outlined text-lg">mic</span></button>
+          <button class="p-1 hover:text-gray-700"><span class="material-symbols-outlined text-lg">photo_camera</span></button>
+        </div>
+        <button class="bg-[#316bf3] text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm hover:bg-blue-600">
+          <span>Find this memory</span>
+          <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Instant Echoes -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between text-xs">
+        <span class="font-bold text-gray-800">Instant Echoes</span>
+        <span class="text-[11px] text-purple-600 font-medium">3 found • Previewing</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-gray-200 rounded-xl h-24 relative overflow-hidden flex flex-col justify-end p-2 text-white bg-gradient-to-t from-black/70 to-transparent">
+          <span class="text-[11px] font-bold leading-tight">Sonoma</span>
+          <span class="text-[9px] opacity-80">Jun 2023</span>
+        </div>
+        <div class="bg-gray-200 rounded-xl h-24 relative overflow-hidden flex flex-col justify-end p-2 text-white bg-gradient-to-t from-black/70 to-transparent">
+          <span class="text-[11px] font-bold leading-tight">Clara & Tom</span>
+          <span class="text-[9px] opacity-80">May 2022</span>
+        </div>
+        <div class="bg-gray-200 rounded
