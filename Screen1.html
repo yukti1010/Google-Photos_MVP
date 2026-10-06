@@ -37,4 +37,139 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button class="p
+      <button class="p-2 text-[#7b7487] hover:text-[#121c2a]"><span class="material-symbols-outlined text-[22px]">search</span></button>
+      <button class="p-2 text-[#7c3aed] hover:opacity-80"><span class="material-symbols-outlined text-[22px]">auto_awesome</span></button>
+      <div class="w-8 h-8 rounded-full bg-[#dee9fc] border border-[#d0dbed] flex items-center justify-center font-bold text-xs text-[#316bf3]">YA</div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 px-4 py-4 max-w-md mx-auto w-full flex flex-col gap-5">
+    <div class="flex items-center gap-2 text-[#7c3aed] text-xs font-semibold">
+      <span class="material-symbols-outlined text-sm">auto_awesome</span>
+      <span>MemoryLens • Natural Recall</span>
+      <span class="material-symbols-outlined text-sm ml-auto text-gray-400">history</span>
+      <span class="material-symbols-outlined text-sm text-gray-400">tune</span>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-bold text-[#121c2a]">What do you remember?</h2>
+      <p class="text-xs text-[#7b7487] mt-0.5">Describe the story, feelings, or details. We'll piece together the rest.</p>
+    </div>
+
+    <!-- Active Thought Query Box -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-[#dee9fc] flex flex-col gap-3">
+      <div class="flex items-center justify-between text-xs text-[#7c3aed] font-semibold">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">psychology</span>
+          <span class="tracking-wide">ACTIVE THOUGHT QUERY</span>
+        </div>
+        <span class="text-[11px] text-gray-400 font-normal">Listening context</span>
+      </div>
+      <div class="flex items-center justify-between bg-[#f8f9ff] px-3 py-2.5 rounded-xl border border-[#e6eeff]">
+        <span class="text-sm font-medium italic text-[#121c2a]">"blue floral dress at my friend's wedding"</span>
+        <button class="text-gray-400 hover:text-gray-600"><span class="material-symbols-outlined text-sm">close</span></button>
+      </div>
+
+      <!-- Detected Cues Chips -->
+      <div class="flex items-center gap-1.5 flex-wrap pt-1">
+        <span class="text-[11px] text-gray-500 font-medium mr-1">Detected cues:</span>
+        <span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">palette</span> Color: Blue</span>
+        <span class="inline-flex items-center gap-1 bg-purple-50 text-purple-700 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">styler</span> Floral dress</span>
+        <span class="inline-flex items-center gap-1 bg-amber-50 text-amber-800 text-[11px] px-2 py-0.5 rounded-full font-medium"><span class="material-symbols-outlined text-[13px]">celebration</span> Friend's Wedding</span>
+      </div>
+
+      <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+        <div class="flex gap-1 text-gray-400">
+          <button class="p-1 hover:text-gray-700"><span class="material-symbols-outlined text-lg">mic</span></button>
+          <button class="p-1 hover:text-gray-700"><span class="material-symbols-outlined text-lg">photo_camera</span></button>
+        </div>
+        <button class="bg-[#316bf3] text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm hover:bg-blue-600">
+          <span>Find this memory</span>
+          <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Instant Echoes -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between text-xs">
+        <span class="font-bold text-gray-800">Instant Echoes</span>
+        <span class="text-[11px] text-purple-600 font-medium">3 found • Previewing</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="rounded-xl h-24 relative overflow-hidden flex flex-col justify-end p-2 text-white bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80');">
+          <span class="text-[11px] font-bold leading-tight drop-shadow-sm">Sonoma</span>
+          <span class="text-[9px] opacity-90 drop-shadow-sm">Jun 2023</span>
+        </div>
+        <div class="rounded-xl h-24 relative overflow-hidden flex flex-col justify-end p-2 text-white bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=80');">
+          <span class="text-[11px] font-bold leading-tight drop-shadow-sm">Clara &amp; Tom</span>
+          <span class="text-[9px] opacity-90 drop-shadow-sm">May 2022</span>
+        </div>
+        <div class="rounded-xl h-24 relative overflow-hidden flex flex-col justify-end p-2 text-white bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent), url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=400&q=80');">
+          <span class="text-[11px] font-bold leading-tight drop-shadow-sm">Dancing</span>
+          <span class="text-[9px] opacity-90 drop-shadow-sm">Sep 2021</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent stories & ideas -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between text-xs font-bold text-gray-800">
+        <div class="flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm text-gray-500">explore</span>
+          <span>Recent stories & ideas</span>
+        </div>
+        <button class="text-[11px] text-blue-600 font-semibold">Inspire me</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="p-2.5 bg-white rounded-xl border border-gray-100 flex items-start gap-2 shadow-xs">
+          <span class="material-symbols-outlined text-amber-500 text-base">wb_twilight</span>
+          <span class="text-[11px] font-medium text-gray-700 leading-tight">Sunset toast by the lake with Maya</span>
+        </div>
+        <div class="p-2.5 bg-white rounded-xl border border-gray-100 flex items-start gap-2 shadow-xs">
+          <span class="material-symbols-outlined text-pink-500 text-base">icecream</span>
+          <span class="text-[11px] font-medium text-gray-700 leading-tight">Spilled gelato in Rome near fountain</span>
+        </div>
+        <div class="p-2.5 bg-white rounded-xl border border-gray-100 flex items-start gap-2 shadow-xs">
+          <span class="material-symbols-outlined text-yellow-600 text-base">directions_car</span>
+          <span class="text-[11px] font-medium text-gray-700 leading-tight">Dad fixing old yellow camper van</span>
+        </div>
+        <div class="p-2.5 bg-white rounded-xl border border-gray-100 flex items-start gap-2 shadow-xs">
+          <span class="material-symbols-outlined text-amber-800 text-base">coffee</span>
+          <span class="text-[11px] font-medium text-gray-700 leading-tight">Rainy coffee shop with damp trenchcoats</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory Tip -->
+    <div class="bg-amber-50/70 border border-amber-200/60 rounded-xl p-3 flex gap-2.5 items-start mt-auto">
+      <span class="material-symbols-outlined text-amber-600 text-base shrink-0 mt-0.5">lightbulb</span>
+      <div class="flex flex-col text-[11px]">
+        <span class="font-bold text-amber-900">Memory Tip</span>
+        <span class="text-amber-800/90 leading-normal">You don't need exact dates or locations. What people wore, how the weather felt, or who was laughing is enough.</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-gray-200 py-2 px-6 flex justify-between items-center text-[10px] font-medium text-gray-500">
+    <div class="flex flex-col items-center gap-0.5 text-blue-600">
+      <span class="material-symbols-outlined text-xl">photo_library</span>
+      <span>Photos</span>
+    </div>
+    <div class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-xl">filter_vintage</span>
+      <span>Memories</span>
+    </div>
+    <div class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-xl">folder_shared</span>
+      <span>Library</span>
+    </div>
+    <div class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-xl">search</span>
+      <span>Search</span>
+    </div>
+  </nav>
+</body>
+</html>
