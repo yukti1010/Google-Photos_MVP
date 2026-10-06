@@ -26,7 +26,7 @@
       darkMode: "class",
       theme: {
         extend: {
-          "colors": {
+          colors: {
             "on-error": "#ffffff",
             "inverse-on-surface": "#eaf1ff",
             "background": "#f8f9ff",
@@ -38,63 +38,36 @@
             "tertiary": "#005a3d",
             "outline": "#7b7487",
             "surface-tint": "#732ee4",
-            "on-primary-fixed-variant": "#5a00c6",
-            "on-primary-fixed": "#25005a",
             "on-primary": "#ffffff",
-            "primary-fixed-dim": "#d2bbff",
             "surface-dim": "#d0dbed",
-            "error-container": "#ffdad6",
             "error": "#ba1a1a",
             "inverse-surface": "#27313f",
             "tertiary-fixed": "#85f8c4",
-            "on-primary-container": "#ede0ff",
-            "on-tertiary-fixed": "#002114",
-            "inverse-primary": "#d2bbff",
             "surface-container-high": "#dee9fc",
             "secondary-container": "#316bf3",
             "on-tertiary": "#ffffff",
             "surface-container-low": "#eff4ff",
-            "tertiary-container": "#007551",
             "surface-container": "#e6eeff",
             "outline-variant": "#ccc3d8",
             "on-secondary-container": "#fefcff",
             "on-surface": "#121c2a",
-            "on-secondary-fixed-variant": "#003ea8",
             "primary-fixed": "#eaddff",
+            "on-primary-fixed": "#25005a",
             "on-surface-variant": "#4a4455",
             "surface-container-highest": "#d9e3f6",
             "secondary": "#0051d5",
             "primary": "#630ed4",
-            "secondary-fixed": "#dbe1ff",
-            "on-tertiary-container": "#88fbc6",
-            "secondary-fixed-dim": "#b4c5ff",
-            "surface": "#f8f9ff",
-            "tertiary-fixed-dim": "#68dba9",
-            "on-tertiary-fixed-variant": "#005137",
-            "on-secondary-fixed": "#00174b",
-            "surface-bright": "#f8f9ff",
-            "on-secondary": "#ffffff"
+            "surface": "#f8f9ff"
           },
-          "borderRadius": {
-            "DEFAULT": "1rem",
-            "lg": "2rem",
-            "xl": "3rem",
-            "full": "9999px"
-          },
-          "spacing": {
+          spacing: {
             "space-xl": "2.5rem",
             "space-sm": "0.5rem",
-            "gutter-tablet": "1.5rem",
             "space-md": "1rem",
             "gutter": "1rem",
             "space-lg": "1.5rem",
-            "margin-tablet": "2rem",
-            "space-xs": "0.25rem",
-            "gutter-desktop": "2rem",
-            "margin-desktop": "3rem",
-            "margin": "1rem"
+            "space-xs": "0.25rem"
           },
-          "fontFamily": {
+          fontFamily: {
             "body-md": ["Hanken Grotesk"],
             "label-sm": ["Hanken Grotesk"],
             "headline-sm": ["Bricolage Grotesque"],
@@ -102,27 +75,7 @@
             "body-sm": ["Hanken Grotesk"],
             "label-md": ["Hanken Grotesk"],
             "headline-lg-mobile": ["Bricolage Grotesque"],
-            "display-lg-mobile": ["Bricolage Grotesque"],
-            "body-lg": ["Hanken Grotesk"],
-            "title-md": ["Hanken Grotesk"],
-            "headline-md": ["Bricolage Grotesque"],
-            "display-lg": ["Bricolage Grotesque"],
-            "headline-lg": ["Bricolage Grotesque"]
-          },
-          "fontSize": {
-            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
-            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
-            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
-            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
-            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
-            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
-            "display-lg-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
-            "title-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
-            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
-            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+            "title-md": ["Hanken Grotesk"]
           }
         }
       }
@@ -133,9 +86,14 @@
   <!-- Top App Bar -->
   <header class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md px-gutter py-space-sm flex items-center justify-between border-b border-surface-container">
     <div class="flex items-center gap-space-sm min-w-0">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="shrink-0"><path d="M12 12V3.5a3.5 3.5 0 1 0-7 0V12h7z" fill="#EA4335"/><path d="M12 12h8.5a3.5 3.5 0 1 0 0-7H12v7z" fill="#FBBC05"/><path d="M12 12v8.5a3.5 3.5 0 1 0 7 0V12h-7z" fill="#34A853"/><path d="M12 12H3.5a3.5 3.5 0 1 0 0 7H12v-7z" fill="#4285F4"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="shrink-0">
+        <path d="M12 12V3.5a3.5 3.5 0 1 0-7 0V12h7z" fill="#EA4335" />
+        <path d="M12 12h8.5a3.5 3.5 0 1 0 0-7H12v7z" fill="#FBBC05" />
+        <path d="M12 12v8.5a3.5 3.5 0 1 0 7 0V12h-7z" fill="#34A853" />
+        <path d="M12 12H3.5a3.5 3.5 0 1 0 0 7H12v-7z" fill="#4285F4" />
+      </svg>
       <div class="flex flex-col">
-        <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-tight">Google Photos</span>
+        <span class="font-headline-sm text-lg font-bold tracking-tight text-on-surface leading-tight">Google Photos</span>
         <span class="font-label-sm text-[10px] text-primary font-semibold tracking-wider uppercase">MemoryLens AI</span>
       </div>
     </div>
@@ -158,7 +116,7 @@
       <div class="flex items-center justify-between mt-space-md mb-space-sm">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed shadow-sm">
           <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-          <span class="font-label-sm text-label-sm font-semibold tracking-wide">MemoryLens • Natural Recall</span>
+          <span class="font-label-sm text-xs font-semibold tracking-wide">MemoryLens • Natural Recall</span>
         </div>
         <div class="flex items-center gap-1">
           <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-surface-container text-on-surface-variant">
@@ -171,8 +129,8 @@
       </div>
 
       <div class="flex flex-col gap-1.5 mt-space-sm mb-space-lg">
-        <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">What do you remember?</h1>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Describe the story, feelings, or details. We'll piece together the rest.</p>
+        <h1 class="font-headline-lg-mobile text-2xl font-bold text-on-surface tracking-tight">What do you remember?</h1>
+        <p class="font-body-md text-sm text-on-surface-variant leading-relaxed">Describe the story, feelings, or details. We'll piece together the rest.</p>
       </div>
 
       <!-- Primary Conversational Search Card -->
@@ -181,14 +139,14 @@
           <span class="material-symbols-outlined text-primary text-[24px] mt-0.5" style="font-variation-settings: 'FILL' 1;">psychology</span>
           <div class="flex-grow min-w-0">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-label-sm text-label-sm text-primary font-semibold tracking-wider uppercase">Active Thought Query</span>
-              <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+              <span class="font-label-sm text-xs text-primary font-semibold tracking-wider uppercase">Active Thought Query</span>
+              <span class="font-label-sm text-xs text-on-surface-variant flex items-center gap-1">
                 <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 Listening context
               </span>
             </div>
             <div class="relative py-1">
-              <p class="font-title-md text-title-md text-on-surface leading-snug" id="query-display">blue floral dress at my friend's wedding<span class="inline-block w-0.5 h-5 ml-0.5 align-middle bg-primary animate-pulse"></span></p>
+              <p class="font-title-md text-base text-on-surface font-semibold leading-snug">blue floral dress at my friend's wedding<span class="inline-block w-0.5 h-5 ml-0.5 align-middle bg-primary animate-pulse"></span></p>
             </div>
           </div>
           <button aria-label="Clear query" class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors shrink-0">
@@ -196,18 +154,18 @@
           </button>
         </div>
 
-        <!-- Semantic Cue Chips Extracted Live -->
+        <!-- Semantic Cue Chips -->
         <div class="flex flex-wrap items-center gap-1.5 mt-space-md pt-space-sm bg-surface-container-low/60 p-2.5 rounded-xl">
-          <span class="font-label-sm text-label-sm text-on-surface-variant font-medium pr-1">Detected cues:</span>
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+          <span class="font-label-sm text-xs text-on-surface-variant font-medium pr-1">Detected cues:</span>
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">
             <span class="material-symbols-outlined text-[13px] text-secondary">palette</span>
             Color: Blue
           </span>
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">
             <span class="material-symbols-outlined text-[13px] text-tertiary">styler</span>
             Floral dress
           </span>
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">
             <span class="material-symbols-outlined text-[13px] text-primary">celebration</span>
             Friend's Wedding
           </span>
@@ -216,14 +174,14 @@
         <!-- Voice, Lens and Action Row -->
         <div class="flex items-center justify-between mt-space-md pt-space-xs">
           <div class="flex items-center gap-2">
-            <button aria-label="Voice memory recall" class="w-10 h-10 rounded-full flex items-center justify-center bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim transition-all">
+            <button aria-label="Voice memory recall" class="w-10 h-10 rounded-full flex items-center justify-center bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed/80 transition-all">
               <span class="material-symbols-outlined text-[20px]">mic</span>
             </button>
             <button aria-label="Visual cue or style photo" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container text-on-surface hover:bg-surface-container-high transition-all">
               <span class="material-symbols-outlined text-[20px]">photo_camera</span>
             </button>
           </div>
-          <button class="flex items-center gap-2 px-space-lg py-2.5 rounded-full bg-secondary-container text-on-secondary-container font-label-lg text-label-lg shadow-sm active:scale-95 transition-all" id="find-memory-btn">
+          <button class="flex items-center gap-2 px-space-lg py-2.5 rounded-full bg-secondary-container text-on-secondary-container font-label-lg text-sm font-semibold shadow-sm active:scale-95 transition-all" id="find-memory-btn">
             <span>Find this memory</span>
             <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
           </button>
@@ -233,21 +191,21 @@
       <!-- Quick Recall Suggestions -->
       <div class="mt-space-lg">
         <div class="flex items-center justify-between mb-space-sm">
-          <span class="font-label-lg text-label-lg text-on-surface font-semibold">Try describing like this</span>
-          <button class="font-label-sm text-label-sm text-primary font-medium hover:underline">More examples</button>
+          <span class="font-label-lg text-sm text-on-surface font-semibold">Try describing like this</span>
+          <button class="font-label-sm text-xs text-primary font-medium hover:underline">More examples</button>
         </div>
         <div class="flex flex-col gap-2">
           <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex items-center justify-between cursor-pointer hover:bg-surface-container-low transition-all">
             <div class="flex items-center gap-2.5 min-w-0">
               <span class="material-symbols-outlined text-outline text-[18px]">wb_twilight</span>
-              <p class="font-body-sm text-body-sm text-on-surface-variant truncate">“Sunset with the yellow vintage camper in the background”</p>
+              <p class="font-body-sm text-xs text-on-surface-variant truncate">“Sunset with the yellow vintage camper in the background”</p>
             </div>
             <span class="material-symbols-outlined text-outline text-[16px]">north_east</span>
           </div>
           <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex items-center justify-between cursor-pointer hover:bg-surface-container-low transition-all">
             <div class="flex items-center gap-2.5 min-w-0">
               <span class="material-symbols-outlined text-outline text-[18px]">restaurant</span>
-              <p class="font-body-sm text-body-sm text-on-surface-variant truncate">“Spilled pasta in Rome when everyone burst out laughing”</p>
+              <p class="font-body-sm text-xs text-on-surface-variant truncate">“Spilled pasta in Rome when everyone burst out laughing”</p>
             </div>
             <span class="material-symbols-outlined text-outline text-[16px]">north_east</span>
           </div>
@@ -258,7 +216,7 @@
     <!-- Educational Bottom Tip -->
     <div class="mt-space-lg p-space-sm rounded-xl bg-surface-container border border-surface-container-high flex items-start gap-2.5">
       <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">lightbulb</span>
-      <p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+      <p class="font-body-sm text-xs text-on-surface-variant leading-snug">
         <strong class="font-semibold text-on-surface">MemoryLens tip:</strong> You don't need exact dates or locations. Smells, music playing, textures, or emotions work just as well.
       </p>
     </div>
